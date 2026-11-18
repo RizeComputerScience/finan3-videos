@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finding a Bank&#x27;s Net Interest Margin in FDIC BankFind</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #F7F5F0; }
+  body { display: flex; align-items: center; justify-content: center; }
+  video { width: 100%; max-height: 100vh; aspect-ratio: 16 / 9; background: #F7F5F0; display: block; }
+  #cc { position: fixed; top: 12px; right: 12px; z-index: 2; font: 600 14px/1 system-ui, sans-serif;
+         color: #FFFFFF; background: rgba(27, 33, 29, 0.78); border: 0; border-radius: 6px;
+         padding: 9px 12px; cursor: pointer; }
+  #cc:focus-visible { outline: 3px solid #FFD84D; outline-offset: 2px; }
+  video::cue { font-family: system-ui, sans-serif; font-size: 1.0em; line-height: 1.35;
+               color: #FFFFFF; background: rgba(27, 33, 29, 0.86); }
+</style>
+</head>
+<body>
+<video id="v" controls playsinline preload="metadata" poster="bankfind-nim.jpg"
+       aria-label="Finding a Bank&#x27;s Net Interest Margin in FDIC BankFind" src="bankfind-nim.mp4"></video>
+<button id="cc" type="button" aria-pressed="false">Captions: off</button>
+<script>
+  const cues = "WEBVTT\n\n00:00:01.101 --> 00:00:07.030\nType your bank's name in the Name box\n\n00:00:07.030 --> 00:00:14.144\nSelect Search\n\n00:00:14.144 --> 00:00:23.535\nCheck the city and state, then select View Details\n\n00:00:23.535 --> 00:00:29.244\nOpen the Financials tab\n\n00:00:29.244 --> 00:00:35.036\nSelect Financial Reporting\n\n00:00:35.036 --> 00:00:43.600\nSelect your bank's name again to open its reports\n\n00:00:43.600 --> 00:00:48.131\nSet Report Type to Summary Table\n\n00:00:48.131 --> 00:00:52.587\nSelect Generate Report\n\n00:00:52.587 --> 00:00:57.408\nOpen 4. Performance Ratios\n\n00:00:57.408 --> 00:01:03.664\nRead the Net Interest Margin row\n";
+  const v = document.getElementById('v');
+  const t = document.createElement('track');
+  t.kind = 'captions'; t.label = 'English'; t.srclang = 'en';
+  t.src = URL.createObjectURL(new Blob([cues], { type: 'text/vtt' }));
+  v.appendChild(t);
+  v.textTracks[0].mode = 'hidden';
+  const cc = document.getElementById('cc');
+  cc.addEventListener('click', () => {
+    const on = v.textTracks[0].mode !== 'showing';
+    v.textTracks[0].mode = on ? 'showing' : 'hidden';
+    cc.setAttribute('aria-pressed', on); cc.textContent = on ? 'Captions: on' : 'Captions: off';
+  });
+  if (new URLSearchParams(location.search).get('test')) { v.muted = true; v.play(); }
+  const at = new URLSearchParams(location.search).get('t');
+  if (at) v.addEventListener('loadedmetadata', () => { v.currentTime = parseFloat(at); });
+</script>
+</body>
+</html>
