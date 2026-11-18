@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finding the Fed&#x27;s Latest Decision on Its Meeting Calendar</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #F7F5F0; }
+  body { display: flex; align-items: center; justify-content: center; }
+  video { width: 100%; max-height: 100vh; aspect-ratio: 16 / 9; background: #F7F5F0; display: block; }
+  #cc { position: fixed; top: 12px; right: 12px; z-index: 2; font: 600 14px/1 system-ui, sans-serif;
+         color: #FFFFFF; background: rgba(27, 33, 29, 0.78); border: 0; border-radius: 6px;
+         padding: 9px 12px; cursor: pointer; }
+  #cc:focus-visible { outline: 3px solid #FFD84D; outline-offset: 2px; }
+  video::cue { font-family: system-ui, sans-serif; font-size: 1.0em; line-height: 1.35;
+               color: #FFFFFF; background: rgba(27, 33, 29, 0.86); }
+</style>
+</head>
+<body>
+<video id="v" controls playsinline preload="metadata" poster="fed-statement.jpg"
+       aria-label="Finding the Fed&#x27;s Latest Decision on Its Meeting Calendar" src="fed-statement.mp4"></video>
+<button id="cc" type="button" aria-pressed="false">Captions: off</button>
+<script>
+  const cues = "WEBVTT\n\n00:00:01.107 --> 00:00:06.349\nScroll down to the meetings of the most recent year\n\n00:00:06.349 --> 00:00:12.621\nFind the last meeting in that year that has a Statement link\n\n00:00:12.621 --> 00:00:17.805\nUnder Statement, select HTML\n\n00:00:17.805 --> 00:00:22.554\nRead the date at the top of the statement\n\n00:00:22.554 --> 00:00:30.300\nFind the sentence that says what the Committee decided about the target range\n";
+  const v = document.getElementById('v');
+  const t = document.createElement('track');
+  t.kind = 'captions'; t.label = 'English'; t.srclang = 'en';
+  t.src = URL.createObjectURL(new Blob([cues], { type: 'text/vtt' }));
+  v.appendChild(t);
+  v.textTracks[0].mode = 'hidden';
+  const cc = document.getElementById('cc');
+  cc.addEventListener('click', () => {
+    const on = v.textTracks[0].mode !== 'showing';
+    v.textTracks[0].mode = on ? 'showing' : 'hidden';
+    cc.setAttribute('aria-pressed', on); cc.textContent = on ? 'Captions: on' : 'Captions: off';
+  });
+  if (new URLSearchParams(location.search).get('test')) { v.muted = true; v.play(); }
+  const at = new URLSearchParams(location.search).get('t');
+  if (at) v.addEventListener('loadedmetadata', () => { v.currentTime = parseFloat(at); });
+</script>
+</body>
+</html>
