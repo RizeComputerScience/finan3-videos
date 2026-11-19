@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finding the Closing Prices Around Your Stock&#x27;s Biggest Move on Yahoo Finance</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #F7F5F0; }
+  body { display: flex; align-items: center; justify-content: center; }
+  video { width: 100%; max-height: 100vh; aspect-ratio: 16 / 9; background: #F7F5F0; display: block; }
+  #cc { position: fixed; top: 12px; right: 12px; z-index: 2; font: 600 14px/1 system-ui, sans-serif;
+         color: #FFFFFF; background: rgba(27, 33, 29, 0.78); border: 0; border-radius: 6px;
+         padding: 9px 12px; cursor: pointer; }
+  #cc:focus-visible { outline: 3px solid #FFD84D; outline-offset: 2px; }
+  video::cue { font-family: system-ui, sans-serif; font-size: 1.0em; line-height: 1.35;
+               color: #FFFFFF; background: rgba(27, 33, 29, 0.86); }
+</style>
+</head>
+<body>
+<video id="v" controls playsinline preload="metadata" poster="yahoo-closes.jpg"
+       aria-label="Finding the Closing Prices Around Your Stock&#x27;s Biggest Move on Yahoo Finance" src="yahoo-closes.mp4"></video>
+<button id="cc" type="button" aria-pressed="false">Captions: off</button>
+<script>
+  const cues = "WEBVTT\n\n00:00:08.020 --> 00:00:13.311\nOpen your company's Historical Data page on Yahoo Finance. This example is Charles Schwab, SCHW\n\n00:00:13.311 --> 00:00:17.108\nSelect the dates to choose the days you need\n\n00:00:17.108 --> 00:00:27.052\nType a start date a few days before the move and an end date a few days after\n\n00:00:27.052 --> 00:00:34.422\nSelect Done\n\n00:00:34.423 --> 00:00:40.443\nEach row is one trading day, newest at the top. Find the last day before the news\n\n00:00:40.443 --> 00:00:45.777\nIts number in the Close column is the last close before the news: 76.20\n\n00:00:45.777 --> 00:00:51.394\nThen find the close on the day the move ended: 51.91 on March 13\n\n00:00:51.394 --> 00:00:55.401\nDo the same on the S&P 500 page, ticker ^GSPC, for the same two days\n";
+  const v = document.getElementById('v');
+  const t = document.createElement('track');
+  t.kind = 'captions'; t.label = 'English'; t.srclang = 'en';
+  t.src = URL.createObjectURL(new Blob([cues], { type: 'text/vtt' }));
+  v.appendChild(t);
+  v.textTracks[0].mode = 'hidden';
+  const cc = document.getElementById('cc');
+  cc.addEventListener('click', () => {
+    const on = v.textTracks[0].mode !== 'showing';
+    v.textTracks[0].mode = on ? 'showing' : 'hidden';
+    cc.setAttribute('aria-pressed', on); cc.textContent = on ? 'Captions: on' : 'Captions: off';
+  });
+  if (new URLSearchParams(location.search).get('test')) { v.muted = true; v.play(); }
+  const at = new URLSearchParams(location.search).get('t');
+  if (at) v.addEventListener('loadedmetadata', () => { v.currentTime = parseFloat(at); });
+</script>
+</body>
+</html>
