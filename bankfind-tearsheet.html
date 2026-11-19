@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finding a Bank&#x27;s Numbers in FDIC BankFind</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #F7F5F0; }
+  body { display: flex; align-items: center; justify-content: center; }
+  video { width: 100%; max-height: 100vh; aspect-ratio: 16 / 9; background: #F7F5F0; display: block; }
+  #cc { position: fixed; top: 12px; right: 12px; z-index: 2; font: 600 14px/1 system-ui, sans-serif;
+         color: #FFFFFF; background: rgba(27, 33, 29, 0.78); border: 0; border-radius: 6px;
+         padding: 9px 12px; cursor: pointer; }
+  #cc:focus-visible { outline: 3px solid #FFD84D; outline-offset: 2px; }
+  video::cue { font-family: system-ui, sans-serif; font-size: 1.0em; line-height: 1.35;
+               color: #FFFFFF; background: rgba(27, 33, 29, 0.86); }
+</style>
+</head>
+<body>
+<video id="v" controls playsinline preload="metadata" poster="bankfind-tearsheet.jpg"
+       aria-label="Finding a Bank&#x27;s Numbers in FDIC BankFind" src="bankfind-tearsheet.mp4"></video>
+<button id="cc" type="button" aria-pressed="false">Captions: off</button>
+<script>
+  const cues = "WEBVTT\n\n00:00:01.104 --> 00:00:07.071\nType your bank's name in the Name box\n\n00:00:07.071 --> 00:00:14.168\nSelect Search\n\n00:00:14.168 --> 00:00:23.539\nCheck the city and state, then select View Details\n\n00:00:23.539 --> 00:00:29.275\nOpen the Financials tab\n\n00:00:29.275 --> 00:00:35.072\nSelect Financial Reporting\n\n00:00:35.072 --> 00:00:43.696\nSelect your bank's name again to open its reports\n\n00:00:43.696 --> 00:00:48.791\nCopy the report date, shown after \"Data as of\"\n\n00:00:48.791 --> 00:00:53.377\nSet Report Type to Summary Table\n\n00:00:53.377 --> 00:00:57.871\nSelect Generate Report\n\n00:00:57.871 --> 00:01:02.523\nOpen 3. Balance Sheet\n\n00:01:02.523 --> 00:01:13.605\nCopy Securities, Total Assets, Total Deposits and Total Equity Capital\n\n00:01:13.605 --> 00:01:21.384\nOpen 4. Performance Ratios and copy Net Interest Margin\n\n00:01:21.384 --> 00:01:30.074\nOpen 5. Condition Ratios and copy Leverage (Core Capital) Ratio\n\n00:01:30.074 --> 00:01:34.649\nSet Report Type to Assets, Liabilities, and Capital\n\n00:01:34.649 --> 00:01:39.171\nSelect Generate Report\n\n00:01:39.171 --> 00:01:50.605\nOpen 4. Total Liabilities and Capital, then Total Liabilities, then Deposits held in Domestic Offices\n\n00:01:50.605 --> 00:01:56.426\nCopy % Insured (Estimated)\n";
+  const v = document.getElementById('v');
+  const t = document.createElement('track');
+  t.kind = 'captions'; t.label = 'English'; t.srclang = 'en';
+  t.src = URL.createObjectURL(new Blob([cues], { type: 'text/vtt' }));
+  v.appendChild(t);
+  v.textTracks[0].mode = 'hidden';
+  const cc = document.getElementById('cc');
+  cc.addEventListener('click', () => {
+    const on = v.textTracks[0].mode !== 'showing';
+    v.textTracks[0].mode = on ? 'showing' : 'hidden';
+    cc.setAttribute('aria-pressed', on); cc.textContent = on ? 'Captions: on' : 'Captions: off';
+  });
+  if (new URLSearchParams(location.search).get('test')) { v.muted = true; v.play(); }
+  const at = new URLSearchParams(location.search).get('t');
+  if (at) v.addEventListener('loadedmetadata', () => { v.currentTime = parseFloat(at); });
+</script>
+</body>
+</html>
