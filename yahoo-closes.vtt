@@ -1,25 +1,25 @@
 WEBVTT
 
-00:00:08.020 --> 00:00:13.311
+00:00:07.962 --> 00:00:13.305
 Open your company's Historical Data page on Yahoo Finance. This example is Charles Schwab, SCHW
 
-00:00:13.311 --> 00:00:17.108
+00:00:13.305 --> 00:00:17.109
 Select the dates to choose the days you need
 
-00:00:17.108 --> 00:00:27.052
+00:00:17.109 --> 00:00:27.062
 Type a start date a few days before the move and an end date a few days after
 
-00:00:27.052 --> 00:00:34.422
+00:00:27.062 --> 00:00:34.416
 Select Done
 
-00:00:34.423 --> 00:00:40.443
-Each row is one trading day, newest at the top. Find the last day before the news
+00:00:34.416 --> 00:00:40.445
+Each row is one trading day, newest at the top. Find the last day before the move began
 
-00:00:40.443 --> 00:00:45.777
-Its number in the Close column is the last close before the news: 76.20
+00:00:40.445 --> 00:00:45.764
+Its number in the Close column is that day's close: 76.20 on March 8
 
-00:00:45.777 --> 00:00:51.394
+00:00:45.764 --> 00:00:51.398
 Then find the close on the day the move ended: 51.91 on March 13
 
-00:00:51.394 --> 00:00:55.401
-Do the same on the S&P 500 page, ticker ^GSPC, for the same two days
+00:00:51.398 --> 00:00:55.407
+Do the same for the S&P 500, ticker ^GSPC, on the same two days
