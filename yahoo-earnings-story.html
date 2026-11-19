@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finding an Earnings Story on Yahoo Finance</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #F7F5F0; }
+  body { display: flex; align-items: center; justify-content: center; }
+  video { width: 100%; max-height: 100vh; aspect-ratio: 16 / 9; background: #F7F5F0; display: block; }
+  #cc { position: fixed; top: 12px; right: 12px; z-index: 2; font: 600 14px/1 system-ui, sans-serif;
+         color: #FFFFFF; background: rgba(27, 33, 29, 0.78); border: 0; border-radius: 6px;
+         padding: 9px 12px; cursor: pointer; }
+  #cc:focus-visible { outline: 3px solid #FFD84D; outline-offset: 2px; }
+  video::cue { font-family: system-ui, sans-serif; font-size: 1.0em; line-height: 1.35;
+               color: #FFFFFF; background: rgba(27, 33, 29, 0.86); }
+</style>
+</head>
+<body>
+<video id="v" controls playsinline preload="metadata" poster="yahoo-earnings-story.jpg"
+       aria-label="Finding an Earnings Story on Yahoo Finance" src="yahoo-earnings-story.mp4"></video>
+<button id="cc" type="button" aria-pressed="false">Captions: off</button>
+<script>
+  const cues = "WEBVTT\n\n00:00:05.641 --> 00:00:09.972\nOpen your company's news page on Yahoo Finance\n\n00:00:09.972 --> 00:00:15.493\nScroll down to the stories about its latest earnings report\n\n00:00:15.493 --> 00:00:21.302\nSkip the company's own announcement: it says nothing about estimates\n\n00:00:21.302 --> 00:00:31.221\nOpen a news story whose headline says the company beat or missed the estimates\n\n00:00:31.221 --> 00:00:37.149\nCopy the headline exactly\n\n00:00:37.149 --> 00:00:48.581\nFind the day of the report and one number for sales or profit\n";
+  const v = document.getElementById('v');
+  const t = document.createElement('track');
+  t.kind = 'captions'; t.label = 'English'; t.srclang = 'en';
+  t.src = URL.createObjectURL(new Blob([cues], { type: 'text/vtt' }));
+  v.appendChild(t);
+  v.textTracks[0].mode = 'hidden';
+  const cc = document.getElementById('cc');
+  cc.addEventListener('click', () => {
+    const on = v.textTracks[0].mode !== 'showing';
+    v.textTracks[0].mode = on ? 'showing' : 'hidden';
+    cc.setAttribute('aria-pressed', on); cc.textContent = on ? 'Captions: on' : 'Captions: off';
+  });
+  if (new URLSearchParams(location.search).get('test')) { v.muted = true; v.play(); }
+  const at = new URLSearchParams(location.search).get('t');
+  if (at) v.addEventListener('loadedmetadata', () => { v.currentTime = parseFloat(at); });
+</script>
+</body>
+</html>
