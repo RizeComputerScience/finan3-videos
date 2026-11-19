@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Making Chart 2: Your Stock Against the S&amp;P 500 in Google Finance</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #F7F5F0; }
+  body { display: flex; align-items: center; justify-content: center; }
+  video { width: 100%; max-height: 100vh; aspect-ratio: 16 / 9; background: #F7F5F0; display: block; }
+  #cc { position: fixed; top: 12px; right: 12px; z-index: 2; font: 600 14px/1 system-ui, sans-serif;
+         color: #FFFFFF; background: rgba(27, 33, 29, 0.78); border: 0; border-radius: 6px;
+         padding: 9px 12px; cursor: pointer; }
+  #cc:focus-visible { outline: 3px solid #FFD84D; outline-offset: 2px; }
+  video::cue { font-family: system-ui, sans-serif; font-size: 1.0em; line-height: 1.35;
+               color: #FFFFFF; background: rgba(27, 33, 29, 0.86); }
+</style>
+</head>
+<body>
+<video id="v" controls playsinline preload="metadata" poster="gf-compare.jpg"
+       aria-label="Making Chart 2: Your Stock Against the S&amp;P 500 in Google Finance" src="gf-compare.mp4"></video>
+<button id="cc" type="button" aria-pressed="false">Captions: off</button>
+<script>
+  const cues = "WEBVTT\n\n00:00:01.102 --> 00:00:05.571\nSearch Google Finance for your company's ticker and open its page. This example is Charles Schwab, SCHW\n\n00:00:05.571 --> 00:00:11.208\nSelect 5Y to show the last five years\n\n00:00:11.208 --> 00:00:16.137\nSelect Compare\n\n00:00:16.137 --> 00:00:26.304\nType S&P 500 and choose the line marked .INX\n\n00:00:26.304 --> 00:00:29.137\nMove your pointer off the chart, so the table shows the whole five years\n\n00:00:29.137 --> 00:00:36.518\nThe table under the chart gives each line's % Change over the five years\n\n00:00:36.518 --> 00:00:42.278\nTake a screenshot of the chart and the table, and paste it into your note\n";
+  const v = document.getElementById('v');
+  const t = document.createElement('track');
+  t.kind = 'captions'; t.label = 'English'; t.srclang = 'en';
+  t.src = URL.createObjectURL(new Blob([cues], { type: 'text/vtt' }));
+  v.appendChild(t);
+  v.textTracks[0].mode = 'hidden';
+  const cc = document.getElementById('cc');
+  cc.addEventListener('click', () => {
+    const on = v.textTracks[0].mode !== 'showing';
+    v.textTracks[0].mode = on ? 'showing' : 'hidden';
+    cc.setAttribute('aria-pressed', on); cc.textContent = on ? 'Captions: on' : 'Captions: off';
+  });
+  if (new URLSearchParams(location.search).get('test')) { v.muted = true; v.play(); }
+  const at = new URLSearchParams(location.search).get('t');
+  if (at) v.addEventListener('loadedmetadata', () => { v.currentTime = parseFloat(at); });
+</script>
+</body>
+</html>
