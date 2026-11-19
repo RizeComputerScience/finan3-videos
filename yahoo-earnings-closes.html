@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finding the Closes Around an Earnings Report on Yahoo Finance</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #F7F5F0; }
+  body { display: flex; align-items: center; justify-content: center; }
+  video { width: 100%; max-height: 100vh; aspect-ratio: 16 / 9; background: #F7F5F0; display: block; }
+  #cc { position: fixed; top: 12px; right: 12px; z-index: 2; font: 600 14px/1 system-ui, sans-serif;
+         color: #FFFFFF; background: rgba(27, 33, 29, 0.78); border: 0; border-radius: 6px;
+         padding: 9px 12px; cursor: pointer; }
+  #cc:focus-visible { outline: 3px solid #FFD84D; outline-offset: 2px; }
+  video::cue { font-family: system-ui, sans-serif; font-size: 1.0em; line-height: 1.35;
+               color: #FFFFFF; background: rgba(27, 33, 29, 0.86); }
+</style>
+</head>
+<body>
+<video id="v" controls playsinline preload="metadata" poster="yahoo-earnings-closes.jpg"
+       aria-label="Finding the Closes Around an Earnings Report on Yahoo Finance" src="yahoo-earnings-closes.mp4"></video>
+<button id="cc" type="button" aria-pressed="false">Captions: off</button>
+<script>
+  const cues = "WEBVTT\n\n00:00:05.261 --> 00:00:11.924\nOn your company's page, select Historical Data\n\n00:00:11.924 --> 00:00:17.352\nIf an ad box covers the page, close it with the X in its corner\n\n00:00:17.352 --> 00:00:22.775\nEach row is one trading day, newest at the top\n\n00:00:22.775 --> 00:00:29.338\nUse the Close column (not Adj Close) and the Volume column\n\n00:00:29.338 --> 00:00:34.389\nScroll down to the day of the report\n\n00:00:34.389 --> 00:00:39.545\nThe reaction day has by far the largest Volume\n\n00:00:39.545 --> 00:00:50.063\nCopy the Close for the day before, the reaction day and five rows above it\n\n00:00:50.063 --> 00:01:08.414\nOpen the S&P 500's history and copy its Close for the same three dates\n";
+  const v = document.getElementById('v');
+  const t = document.createElement('track');
+  t.kind = 'captions'; t.label = 'English'; t.srclang = 'en';
+  t.src = URL.createObjectURL(new Blob([cues], { type: 'text/vtt' }));
+  v.appendChild(t);
+  v.textTracks[0].mode = 'hidden';
+  const cc = document.getElementById('cc');
+  cc.addEventListener('click', () => {
+    const on = v.textTracks[0].mode !== 'showing';
+    v.textTracks[0].mode = on ? 'showing' : 'hidden';
+    cc.setAttribute('aria-pressed', on); cc.textContent = on ? 'Captions: on' : 'Captions: off';
+  });
+  if (new URLSearchParams(location.search).get('test')) { v.muted = true; v.play(); }
+  const at = new URLSearchParams(location.search).get('t');
+  if (at) v.addEventListener('loadedmetadata', () => { v.currentTime = parseFloat(at); });
+</script>
+</body>
+</html>

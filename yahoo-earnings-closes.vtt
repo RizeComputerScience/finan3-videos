@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00:05.261 --> 00:00:11.924
+On your company's page, select Historical Data
+
+00:00:11.924 --> 00:00:17.352
+If an ad box covers the page, close it with the X in its corner
+
+00:00:17.352 --> 00:00:22.775
+Each row is one trading day, newest at the top
+
+00:00:22.775 --> 00:00:29.338
+Use the Close column (not Adj Close) and the Volume column
+
+00:00:29.338 --> 00:00:34.389
+Scroll down to the day of the report
+
+00:00:34.389 --> 00:00:39.545
+The reaction day has by far the largest Volume
+
+00:00:39.545 --> 00:00:50.063
+Copy the Close for the day before, the reaction day and five rows above it
+
+00:00:50.063 --> 00:01:08.414
+Open the S&P 500's history and copy its Close for the same three dates
